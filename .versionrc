@@ -1,0 +1,26 @@
+{
+  "header": "# Changelog\n\nAll notable changes to this project will be documented in this file.",
+  "types": [
+    { "type": "feat", "section": "Features" },
+    { "type": "fix", "section": "Bug Fixes" },
+    { "type": "chore", "hidden": true },
+    { "type": "docs", "hidden": true },
+    { "type": "style", "hidden": true },
+    { "type": "refactor", "hidden": true },
+    { "type": "perf", "hidden": true },
+    { "type": "test", "hidden": true }
+  ],
+  "commitUrlFormat": "https://github.com/GenjiruSUchiwa/place/commit/{{hash}}",
+  "compareUrlFormat": "https://github.com/GenjiruSUchiwa/place/compare/{{previousTag}}...{{currentTag}}",
+  "issueUrlFormat": "https://github.com/GenjiruSUchiwa/place/issues/{{id}}",
+  "userUrlFormat": "https://github.com/{{user}}",
+  "releaseCommitMessageFormat": "chore(release): {{currentTag}}",
+  "preset": "conventionalcommits",
+  "tagPrefix": "v",
+  "firstRelease": true,
+  "releaseRules": [
+    { "type": "feat", "release": "minor" },
+    { "type": "fix", "release": "patch" },
+    { "type": "BREAKING CHANGE", "release": "major" }
+  ]
+}

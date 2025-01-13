@@ -1,0 +1,2 @@
+/Users/aristidehervembassi/Documents/Projects/place/src/Place.API/obj/Debug/net9.0/Place.API.csproj.AssemblyReference.cache
+/Users/aristidehervembassi/Documents/Projects/place/src/Place.API/obj/Debug/net9.0/Place.API.GeneratedMSBuildEditorConfig.editorconfig

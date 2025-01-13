@@ -1,0 +1,21 @@
+<Project>
+    <PropertyGroup>
+        <Authors>Aristide Herve Mbassi</Authors>
+        <LangVersion>latest</LangVersion>
+        <Copyright>2025 - Aristide Herve Mbassi</Copyright>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <Version>0.0.0</Version>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <IsTestProject>false</IsTestProject>
+        <IsTestProject Condition="$(MSBuildProjectName.EndsWith('Tests'))">true</IsTestProject>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Roslynator.Analyzers" Version="4.12.10">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+</Project>
