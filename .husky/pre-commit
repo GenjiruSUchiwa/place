@@ -19,4 +19,4 @@
 ## or put your custom commands -------------------
 #echo 'Husky.Net is awesome!'
 
-echo 'Welcome to pre-commit git hook with Husky.Net'
+echo 'Validating commit message'
