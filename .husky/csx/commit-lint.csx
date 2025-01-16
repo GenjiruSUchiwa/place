@@ -9,6 +9,7 @@ Console.ForegroundColor = ConsoleColor.Red;
 Console.WriteLine("Invalid commit message");
 Console.ResetColor();
 Console.WriteLine("Please use conventional commits prefix like feat:,fix:, docs: subject'");
+Console.WriteLine("example: feat: my new commit #123'");
 Console.ForegroundColor = ConsoleColor.Gray;
 Console.WriteLine("more info: https://www.conventionalcommits.org/en/v1.0.0/");
 return 1;
