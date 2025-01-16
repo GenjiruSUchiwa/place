@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+dotnet script .husky/csx/commit-lint.csx "$1"
