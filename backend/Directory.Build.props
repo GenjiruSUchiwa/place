@@ -10,11 +10,15 @@
       <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
       <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
       <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-      
+      <CSharpier_FrameworkVersion>net9.0</CSharpier_FrameworkVersion>
+      <CSharpier_Check>false</CSharpier_Check>
       <NoWarn>NU1901;NU1902;NU1903;NU1904</NoWarn>
     </PropertyGroup>
     <Target Name="LogVersion" BeforeTargets="Build">
         <Message Importance="high" Text="Version: $(Version)" />
     </Target>
+  <Target Name="FormatWithCSharpier" BeforeTargets="Build">
+    <Exec Command="dotnet csharpier ." />
+  </Target>
 </Project>
 

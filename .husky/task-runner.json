@@ -6,6 +6,12 @@
       "command": "dotnet",
       "args": ["script", ".husky/commit-lint.csx", "${args}"],
       "hook": "commit-msg"
+    },
+    {
+      "name": "Run CSharpier",
+      "command": "dotnet",
+      "args": ["csharpier", "${staged}"],
+      "include": ["**/*.cs"]
     }
   ]
 }
