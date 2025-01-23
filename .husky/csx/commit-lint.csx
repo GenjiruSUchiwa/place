@@ -1,15 +1,66 @@
+using System;
+using System.IO;
 using System.Text.RegularExpressions;
 
-private var pattern =
-    @"^(?=.{1,90}$)(?:feat|feat!|chore|ci|build|docs|fix|perf|refactor|revert|style|test|wip)(?:\(.+\))*(?::).{4,}#\d+(?<![\.\s])$";
-private var msg = File.ReadAllLines(Args[0])[0];
-if (Regex.IsMatch(msg, pattern))
-    return 0;
-Console.ForegroundColor = ConsoleColor.Red;
-Console.WriteLine("Invalid commit message");
-Console.ResetColor();
-Console.WriteLine("Please use conventional commits prefix like feat:,fix:, docs: subject'");
-Console.WriteLine("example: feat: my new commit #123'");
-Console.ForegroundColor = ConsoleColor.Gray;
-Console.WriteLine("more info: https://www.conventionalcommits.org/en/v1.0.0/");
-return 1;
+class CommitValidator
+{
+    private static readonly string Pattern =
+        @"^(?=.{1,90}$)" + // Longueur totale 1-90 caractères
+        @"(feat|feat!|chore|ci|build|docs|fix|perf|refactor|revert|style|test|wip)" + // Type de commit
+        @"(\([a-z-]+\))?" + // Scope optionnel (caractères autorisés : a-z, -)
+        @":\s+" + // Deux-points suivi d'espaces
+        @"[A-Za-z].{3,}" + // Description explicite (commençant par une lettre)
+        @"\s+#\d+$"; // Numéro de ticket en fin de message
+
+    static int Main(string[] args)
+    {
+        try
+        {
+            if (args.Length == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("Usage: commit-validator <commit_message_file_path>");
+                return 2;
+            }
+
+            var commitMessage = File.ReadAllText(args[0]).Trim();
+            
+            if (Regex.IsMatch(commitMessage, Pattern, RegexOptions.IgnoreCase))
+                return 0;
+
+            DisplayErrorMessage();
+            return 1;
+        }
+        catch (Exception ex)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Error: {ex.Message}");
+            return 1;
+        }
+        finally
+        {
+            Console.ResetColor();
+        }
+    }
+
+    private static void DisplayErrorMessage()
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Invalid commit message format!");
+        Console.ResetColor();
+        
+        Console.WriteLine("\nFormat requis :");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("<type>[scope]: <description> #<ticket>");
+        Console.ResetColor();
+        
+        Console.WriteLine("\nExemples valides :");
+        Console.WriteLine("• feat: add user authentication #123");
+        Console.WriteLine("• fix(api): resolve timeout issue #456");
+        Console.WriteLine("• docs: update installation guide #789");
+        
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+        Console.WriteLine("\nTypes autorisés : " + 
+            "feat, fix, docs, chore, style, refactor, test, build, ci, perf, revert");
+    }
+}
