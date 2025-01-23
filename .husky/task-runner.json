@@ -12,6 +12,12 @@
       "command": "dotnet",
       "args": ["csharpier", "${staged}"],
       "include": ["**/*.cs"]
+    },
+    {
+      "name": "Build Project",
+      "command": "dotnet",
+      "args": ["build"],
+      "include": ["**/*.csproj"]
     }
   ]
 }
