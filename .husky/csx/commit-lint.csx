@@ -1,66 +1,42 @@
+#!/usr/bin/env dotnet-script
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
 
-class CommitValidator
+try 
 {
-    private static readonly string Pattern =
-        @"^(?=.{1,90}$)" + // Longueur totale 1-90 caractères
-        @"(feat|feat!|chore|ci|build|docs|fix|perf|refactor|revert|style|test|wip)" + // Type de commit
-        @"(\([a-z-]+\))?" + // Scope optionnel
-        @":\s+" + // Deux-points + espace
-        @"[A-Za-z].{3,}" + // Description 
-        @"\s+\(\#\d+\)$"; // Numéro d'issue entre parenthèses
+    var pattern = 
+        @"^(?=.{1,90}$)" 
+        + @"(feat|feat!|chore|ci|build|docs|fix|perf|refactor|revert|style|test|wip)" 
+        + @"(\([a-z-]+\))?:\s+[A-Za-z].{3,}\s+\(\#\d+\)$";
 
-    static int Main(string[] args)
+    // Correction ici : Utiliser Count au lieu de Length
+    if (Args.Count == 0)
     {
-        try
-        {
-            if (args.Length == 0)
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Usage: commit-validator <commit_message_file_path>");
-                return 2;
-            }
-
-            var commitMessage = File.ReadAllText(args[0]).Trim();
-            
-            if (Regex.IsMatch(commitMessage, Pattern, RegexOptions.IgnoreCase))
-                return 0;
-
-            DisplayErrorMessage();
-            return 1;
-        }
-        catch (Exception ex)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Error: {ex.Message}");
-            return 1;
-        }
-        finally
-        {
-            Console.ResetColor();
-        }
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("Chemin du message de commit manquant");
+        return 2;
     }
 
-    private static void DisplayErrorMessage()
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Invalid commit message format!");
-        Console.ResetColor();
-        
-        Console.WriteLine("\nFormat requis :");
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("<type>[scope]: <description> (#<issue>)");
-        Console.ResetColor();
-        
-        Console.WriteLine("\nExemples valides :");
-        Console.WriteLine("• feat: add user authentication (#123)");
-        Console.WriteLine("• fix(api): resolve timeout issue (#456)");
-        Console.WriteLine("• docs: update installation guide (#789)");
-        
-        Console.ForegroundColor = ConsoleColor.DarkGray;
-        Console.WriteLine("\nTypes autorisés : " + 
-            "feat, fix, docs, chore, style, refactor, test, build, ci, perf, revert");
-    }
+    var msg = File.ReadAllText(Args[0]).Trim();
+
+    if (Regex.IsMatch(msg, pattern, RegexOptions.IgnoreCase)) 
+        return 0;
+
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine("Message de commit invalide");
+    Console.ResetColor();
+    Console.WriteLine("Format requis : type[scope]: description (#123)");
+    Console.WriteLine("Exemple : feat(auth): ajout connexion Google (#456)");
+    return 1;
+}
+catch (Exception ex)
+{
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine($"ERREUR: {ex.Message}");
+    return 1;
+}
+finally
+{
+    Console.ResetColor();
 }
